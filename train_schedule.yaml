@@ -16,7 +16,7 @@ spec:
             pathType: Exact
             backend:
               service:
-                name: php-apache
+                name: train-schedule
                 port:
                   number: 80
 
