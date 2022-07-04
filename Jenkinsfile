@@ -16,9 +16,6 @@ pipeline {
       }
     }  
     stage('Build Docker Image') {
-      when {
-        branch 'master'
-      }
       steps {
         script {
           app = docker.build(DOCKER_IMAGE_NAME)
@@ -29,9 +26,6 @@ pipeline {
       }
     }
     stage('Push Docker Image') {
-      when {
-        branch 'master'
-      }
       steps {
         script {
           docker.withRegistry('https://registry.hub.docker.com', 'docker_hub_login') {
@@ -88,6 +82,13 @@ pipeline {
       steps {
          withAWS(credentials: 'terraform_user', region: 'us-east-1') {
           sh label: '', script: 'kubectl apply -f ./train_schedule.yaml'
+        }
+      }
+    }
+    stage('waiting the ALB to deploy') {
+      steps {
+         withAWS(credentials: 'terraform_user', region: 'us-east-1') {
+          sh label: '', script: 'sleep 300'
         }
       }
     }
