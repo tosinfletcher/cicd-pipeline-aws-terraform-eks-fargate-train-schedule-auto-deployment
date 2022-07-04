@@ -103,7 +103,7 @@ resource "aws_iam_role" "tfletcher_load_balancer_role_trust_policy" {
 resource "aws_iam_policy" "tfletcher_AWSLoadBalancerControllerIAMPolicy" {
   name   = "tfletcher_AWSLoadBalancerControllerIAMPolicy"
   path   = "/"
-  policy = file("aws_load_balancer_controller_iam_policy.json")
+  policy = file("load_balancer_controller_iam_policy.json")
 }
 
 
