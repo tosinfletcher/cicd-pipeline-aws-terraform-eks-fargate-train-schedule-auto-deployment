@@ -17,4 +17,13 @@ Usage:
 
 5.  Manually Perform the first build
 
-6.  When changes are made and pushed back to the repository, Jenkins will perform the required CI/CD.
+6.  When the build successfully completes, copy the Application Load Balancer address outputted to the screen and create a CNAME record where
+
+            Host: train-schedule
+            Value: k8s-default-trainsch-**********.us-east-1.elb.amazonaws.com
+
+7.  NOTE:
+
+            When changes are made and pushed back to the repository, Jenkins will perform the required CI/CD.
+
+
