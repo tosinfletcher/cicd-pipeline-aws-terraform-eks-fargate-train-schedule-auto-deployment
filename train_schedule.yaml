@@ -18,7 +18,7 @@ spec:
               service:
                 name: train-schedule
                 port:
-                  number: 80
+                  number: 8080
 
 ---
 apiVersion: v1
@@ -27,7 +27,7 @@ metadata:
   name: train-schedule
 spec:
   ports:
-  - port: 80
+  - port: 8080
   selector:
     run: train-schedule
 
@@ -80,7 +80,7 @@ spec:
     spec:
       containers:
       - name: train-schedule
-        image: tosinfletcher/train-schedule
+        image: tosinfletcher/train-schedule-test
         ports:
         - containerPort: 8080
         livenessProbe:
