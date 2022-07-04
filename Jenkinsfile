@@ -88,7 +88,7 @@ pipeline {
     stage('waiting the ALB to deploy') {
       steps {
          withAWS(credentials: 'terraform_user', region: 'us-east-1') {
-          sh label: '', script: 'sleep 300'
+          sh label: '', script: 'sleep 150'
         }
       }
     }
