@@ -1,0 +1,97 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: train-schedule
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - host: train-schedule.tosinfletcher.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: train-schedule
+                port:
+                  number: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: train-schedule
+spec:
+  selector:
+    app: train-schedule
+  ports:
+  - protocol: TCP
+    port: 8080
+
+---
+
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: train-schedule
+spec:
+  minReplicas: 2
+  maxReplicas: 5
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: train-schedule
+  targetCPUUtilizationPercentage: 50
+
+---
+
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: train-schedule
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      run: train-schedule
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: train-schedule
+  labels:
+    app: train-schedule
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: train-schedule
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: train-schedule
+        track: stable
+    spec:
+      containers:
+      - name: train-schedule
+        image: tosinfletcher/train-schedule-test
+        ports:
+        - containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 15
+          timeoutSeconds: 1
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: 200m
