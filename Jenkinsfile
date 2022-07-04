@@ -87,7 +87,7 @@ pipeline {
     stage('provision nginx on the eks cluster') {
       steps {
          withAWS(credentials: 'terraform_user', region: 'us-east-1') {
-          sh label: '', script: 'kubectl apply -f ./train-schedule.yaml'
+          sh label: '', script: 'kubectl apply -f ./train_schedule.yaml'
         }
       }
     }
