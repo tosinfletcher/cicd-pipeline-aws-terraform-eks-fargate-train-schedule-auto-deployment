@@ -13,7 +13,7 @@ spec:
       http:
         paths:
           - path: /
-            pathType: Exact
+            pathType: Prefix
             backend:
               service:
                 name: train-schedule
@@ -26,10 +26,11 @@ kind: Service
 metadata:
   name: train-schedule
 spec:
-  ports:
-  - port: 8080
   selector:
-    run: train-schedule
+    app: train-schedule
+  ports:
+  - protocol: TCP
+    port: 8080
 
 ---
 
