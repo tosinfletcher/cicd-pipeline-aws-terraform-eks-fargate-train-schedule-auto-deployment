@@ -1,15 +1,20 @@
-# cicd-pipeline-train-schedule-autodeploy
+# cicd-pipeline-aws-terraform-eks-fargate-train-schedule-auto-deployment
 
-This is a simple train schedule app written using nodejs. It is intended to be used as a sample application for a series of hands-on learning activities.
+Prerequisite:
 
-## Running the app
+1.  Install terraform and configure aws cli on Jenkins worker nodes
+    
+        1.  Terraform
+        2.  AWS CLI
 
-You need a Java JDK 7 or later to run the build. You can run the build like this:
+Usage:
 
-    ./gradlew build
+2.  Creade a CI/CD pipeline on Jenkins with GitHub hook trigger for GITScm polling configured
 
-You can run the app with:
+3.  Select "Pipeline script from SCM" for Pipeline Definition
 
-    ./gradlew npm_start
+4.  Configure web-hook on your the "cicd-pipeline-aws-terraform-eks-fargate-train-schedule-auto-deployment" repository
 
-Once it is running, you can access it in a browser at http://localhost:8080
+5.  Manually Perform the first build
+
+6.  When changes are made and pushed back to the repository, Jenkins will perform the required CI/CD.
