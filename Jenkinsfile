@@ -66,7 +66,7 @@ pipeline {
     stage('connect the jenkins worker node to the eks cluster') {
       steps {
         withAWS(credentials: 'terraform_user', region: 'us-east-1') {
-          sh label: '', script: 'aws eks update-kubeconfig --region us-east-1 --name tfletcher_eks_cluster'
+          sh label: '', script: 'aws eks update-kubeconfig --region us-east-1 --name eks_cluster'
         }
       
       }

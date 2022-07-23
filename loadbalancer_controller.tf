@@ -1,5 +1,5 @@
-resource "helm_release" "tfletcher-load-balancer-controller" {
-  name = "tfletcher-load-balancer-controller"
+resource "helm_release" "load-balancer-controller" {
+  name = "load-balancer-controller"
 
   repository = "https://aws.github.io/eks-charts"
   chart      = "aws-load-balancer-controller"
@@ -8,7 +8,7 @@ resource "helm_release" "tfletcher-load-balancer-controller" {
 
   set {
     name  = "clusterName"
-    value = aws_eks_cluster.tfletcher_eks_cluster.name
+    value = aws_eks_cluster.eks_cluster.name
   }
 
   set {
@@ -28,7 +28,7 @@ resource "helm_release" "tfletcher-load-balancer-controller" {
 
   set {
     name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = aws_iam_role.tfletcher_load_balancer_role_trust_policy.arn
+    value = aws_iam_role.load_balancer_role_trust_policy.arn
   }
 
   # EKS Fargate specific
@@ -39,8 +39,8 @@ resource "helm_release" "tfletcher-load-balancer-controller" {
 
   set {
     name  = "vpcId"
-    value = aws_vpc.tfletcher_vpc.id
+    value = aws_vpc.vpc.id
   }
 
-  depends_on = [aws_eks_fargate_profile.tfletcher_fargate, aws_eks_fargate_profile.CoreDNS]
+  depends_on = [aws_eks_fargate_profile.fargate, aws_eks_fargate_profile.CoreDNS]
 }
